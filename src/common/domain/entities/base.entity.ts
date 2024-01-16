@@ -1,28 +1,37 @@
-import { CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @CreateDateColumn({
+    @Column({
         name: 'create_at',
         type: 'timestamp',
-        default: () => 'CURRENT_TIMESTAMP'
     })
-    createAt: Date;
+    createdAt: Date;
 
-    @UpdateDateColumn({
+    @Column({
         name: 'update_at',
         type: 'timestamp',
-        default: () => 'CURRENT_TIMESTAMP'
     })
-    updateAt: Date;
+    updatedAt: Date;
 
     @DeleteDateColumn({
         name: 'delete_at',
         type: 'timestamp',
+        nullable: true,
         default: null
     })
-    deleteAt: Date;
+    deletedAt: Date;
+
+    @BeforeInsert()
+  private setCreateDate(): void {
+    this.createdAt = new Date();
+  }
+
+  @BeforeUpdate()
+  public setUpdateDate(): void {
+    this.updatedAt = new Date();
+  }
 }

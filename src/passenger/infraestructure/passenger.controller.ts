@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { PassengerService } from '../application/passenger.service';
-import { CreatePassengerDto } from './dto/passenger.dto';
+import { PassengerDto } from './dto/passenger.dto';
 import { UpdatePassengerDto } from './dto/update-passenger.dto';
 
 @Controller()
@@ -9,8 +9,8 @@ export class PassengerController {
   constructor(private readonly passengerService: PassengerService) {}
 
   @MessagePattern('createPassenger')
-  create(@Payload() createPassengerDto: CreatePassengerDto) {
-    return this.passengerService.create(createPassengerDto);
+  create(@Payload() passengerDto: PassengerDto) {
+    return this.passengerService.create(passengerDto);
   }
 
   @MessagePattern('findAllPassenger')
@@ -19,7 +19,7 @@ export class PassengerController {
   }
 
   @MessagePattern('findOnePassenger')
-  findOne(@Payload() id: number) {
+  findOne(@Payload() id: string) {
     return this.passengerService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class PassengerController {
   }
 
   @MessagePattern('removePassenger')
-  remove(@Payload() id: number) {
+  remove(@Payload() id: string) {
     return this.passengerService.remove(id);
   }
 }

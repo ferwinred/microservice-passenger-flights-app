@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePassengerDto } from '../infraestructure/dto/create-passenger.dto';
+import { CreatePassengerDto } from '../infraestructure/dto/passenger.dto';
 import { UpdatePassengerDto } from '../infraestructure/dto/update-passenger.dto';
 
 @Injectable()

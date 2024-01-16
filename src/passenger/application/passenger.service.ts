@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PassengerDto } from '../infraestructure/dto/passenger.dto';
+import { CreatePassengerDto } from '../infraestructure/dto/passenger.dto';
 import { UpdatePassengerDto } from '../infraestructure/dto/update-passenger.dto';
 
 @Injectable()
 export class PassengerService {
-  create(passengerDto: PassengerDto) {
+  create(createPassengerDto: CreatePassengerDto) {
     return 'This action adds a new passenger';
   }
 
@@ -12,15 +12,15 @@ export class PassengerService {
     return `This action returns all passenger`;
   }
 
-  findOne(id: string) {
+  findOne(id: number) {
     return `This action returns a #${id} passenger`;
   }
 
-  update(id: string, updatePassengerDto: UpdatePassengerDto) {
+  update(id: number, updatePassengerDto: UpdatePassengerDto) {
     return `This action updates a #${id} passenger`;
   }
 
-  remove(id: string) {
+  remove(id: number) {
     return `This action removes a #${id} passenger`;
   }
 }

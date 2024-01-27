@@ -1,26 +1,60 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePassengerDto } from '../infraestructure/dto/passenger.dto';
+import { PassengerDto } from '../infraestructure/dto/passenger.dto';
 import { UpdatePassengerDto } from '../infraestructure/dto/update-passenger.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Passenger } from '../domain/entities/passenger.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PassengerService {
-  create(createPassengerDto: CreatePassengerDto) {
-    return 'This action adds a new passenger';
+
+  constructor(
+    @InjectRepository(Passenger) private readonly passengerRepository: Repository<Passenger>
+  ){}
+
+  async create(passengerDto: PassengerDto) {
+
+    const passenger = this.passengerRepository.create(passengerDto);
+
+    return await this.passengerRepository.save(passenger);
+
   }
 
-  findAll() {
-    return `This action returns all passenger`;
+  async findAll() {
+
+    const passengers = await this.passengerRepository.find();
+
+    return passengers;
+
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} passenger`;
+  async findOne(id: string) {
+
+    const passenger = await this.passengerRepository.findOne({
+      where: {
+        id
+      }
+    });
+
+    return passenger;
+
   }
 
-  update(id: number, updatePassengerDto: UpdatePassengerDto) {
-    return `This action updates a #${id} passenger`;
+  async update(id: string, updatePassengerDto: UpdatePassengerDto) {
+
+    const passenger = await this.passengerRepository.preload({...updatePassengerDto});
+
+    return await this.passengerRepository.save(passenger);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} passenger`;
+  async remove(id: string) {
+
+    const passenger = await this.passengerRepository.findOne({
+      where: {
+        id
+      }
+    });
+
+    return await this.passengerRepository.softDelete(passenger);
   }
 }

@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreatePassengerDto } from './passenger.dto';
+import { PassengerDto } from './passenger.dto';
 
-export class UpdatePassengerDto extends PartialType(CreatePassengerDto) {
-  id: number;
+export class UpdatePassengerDto extends PartialType(PassengerDto) {
+  id: string;
 }

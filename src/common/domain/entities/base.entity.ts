@@ -8,21 +8,22 @@ export class BaseEntity {
     @CreateDateColumn({
         name: 'create_at',
         type: 'timestamp',
-        default: () => 'CURRENT_TIMESTAMP'
+        default: () => 'CURRENT_TIMESTAMP(6)',
     })
     createAt: Date;
 
     @UpdateDateColumn({
         name: 'update_at',
         type: 'timestamp',
-        default: () => 'CURRENT_TIMESTAMP'
+        default: () => 'CURRENT_TIMESTAMP(6)',
+        onUpdate: 'CURRENT_TIMESTAMP(6)',
     })
     updateAt: Date;
 
     @DeleteDateColumn({
         name: 'delete_at',
         type: 'timestamp',
-        default: null
+        default: null,
     })
     deleteAt: Date;
 }

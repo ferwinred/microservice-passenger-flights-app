@@ -4,6 +4,7 @@ import { UpdatePassengerDto } from '../infraestructure/dto/update-passenger.dto'
 import { InjectRepository } from '@nestjs/typeorm';
 import { Passenger } from '../domain/entities/passenger.entity';
 import { Repository } from 'typeorm';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class PassengerService {
@@ -36,6 +37,11 @@ export class PassengerService {
       }
     });
 
+    if (!passenger) throw new RpcException({ 
+      status: 404, 
+      message: `User with Id ${id} is not found`
+    });
+
     return passenger;
 
   }
@@ -43,6 +49,11 @@ export class PassengerService {
   async update(id: string, updatePassengerDto: UpdatePassengerDto) {
 
     const passenger = await this.passengerRepository.preload({...updatePassengerDto});
+
+    if (!passenger) throw new RpcException({ 
+      status: 404, 
+      message: `User with Id ${id} is not found`
+    });
 
     return await this.passengerRepository.save(passenger);
   }
@@ -53,6 +64,11 @@ export class PassengerService {
       where: {
         id
       }
+    });
+
+    if (!passenger) throw new RpcException({ 
+      status: 404, 
+      message: `User with Id ${id} is not found`
     });
 
     return await this.passengerRepository.softDelete(passenger);
